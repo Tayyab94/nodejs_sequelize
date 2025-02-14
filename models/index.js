@@ -21,6 +21,7 @@ db.sequelize = sequelize;
 db.User = require("./user")(sequelize, Sequelize);
 db.Contact = require("./contact")(sequelize, Sequelize);
 
+// force true means remove the previous db and create new everytime when application will start
 sequelize.sync({ force: false }).then(() => {
     console.log("Tables created");
 }).catch((err) => {
