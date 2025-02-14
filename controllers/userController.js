@@ -109,3 +109,31 @@ exports.updateUser = async (req, res) => {
     }
 
 }
+
+exports.putupdateuser = async (req, res) => {
+
+    const id = req.params.id;
+    const updateData = req.body;
+
+    if (!updateData.firstName || !updateData.lastName || !updateData.email) {
+        return res.status(400).json({ message: "All fields are required" });
+    }
+
+    try {
+        const [affectedRows] = await User.update(updateData, {
+            where: {
+                id: id
+            },
+            validate: true // Ensure the validation are run
+        });
+
+        if (affectedRows > 0) {
+            res.status(200).json({ message: "User updated successfully" });
+        }
+
+        return res.status(400).json({ message: "User not updated" });
+    }
+    catch (error) {
+        res.status(500).json({ message: "Internal Server Error!", error: error.message });
+    }
+}
